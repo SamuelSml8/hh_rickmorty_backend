@@ -70,4 +70,31 @@ export class CharactersService {
       return createResponse(false, 'Failed to import characters', []);
     }
   }
+
+  async getCharactersByName(
+    name: string,
+    page: number = 1,
+    limit: number = 20,
+  ): Promise<ResponseApiHh<Character[]>> {
+    try {
+      if (page < 1) page = 1;
+      if (limit < 1) limit = 20;
+
+      const characters = await this.characterRepository
+        .createQueryBuilder('character')
+        .where('character.name ILIKE :name', { name: `%${name}%` })
+        .skip((page - 1) * limit)
+        .take(limit)
+        .getMany();
+
+      if (!characters.length) {
+        return createResponse(false, 'No characters found', []);
+      }
+
+      return createResponse(true, 'Characters found', characters);
+    } catch (error) {
+      console.error('Error retrieving characters:', error.message);
+      return createResponse(false, 'Failed to retrieve characters', []);
+    }
+  }
 }
