@@ -100,16 +100,42 @@ export class CharactersService {
 
   async refreshCharacters(): Promise<ResponseApiHh<Character[]>> {
     try {
-      const refreshData = await this.importCharacters();
-      if (!refreshData.ok) {
+      const characters = await this.importCharacters();
+
+      if (!characters.ok) {
         throw new Error('Failed to import characters');
       }
 
-      return createResponse(
-        true,
-        'Characters refreshed successfully',
-        refreshData.data,
+      const newData = await this.characterRepository.manager.transaction(
+        async (transactionalEntityManager) => {
+          for (const character of characters.data) {
+            const existingCharacter = await transactionalEntityManager.findOne(
+              Character,
+              {
+                where: { id: character.id },
+              },
+            );
+
+            if (existingCharacter) {
+              await transactionalEntityManager.update(
+                Character,
+                character.id,
+                character,
+              );
+            } else {
+              await transactionalEntityManager.insert(Character, character);
+            }
+          }
+
+          return createResponse(
+            true,
+            'Characters refreshed successfully',
+            characters.data,
+          );
+        },
       );
+
+      return newData;
     } catch (error) {
       console.error('Error refreshing characters:', error.message);
       return createResponse(false, 'Failed to refresh characters', []);
