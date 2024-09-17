@@ -1,8 +1,9 @@
 import { Gender } from 'src/utils/enums/gender.enum';
 import { Status } from 'src/utils/enums/status.enum';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
+@Index('idx_characters_name', ['name'])
 export class Character {
   @PrimaryGeneratedColumn()
   id: number;
