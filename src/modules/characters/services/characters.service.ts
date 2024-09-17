@@ -58,7 +58,7 @@ export class CharactersService {
 
       const truncatedCharacters = characters.slice(0, maxCharacters);
 
-      await this.characterRepository.save(truncatedCharacters);
+      await this.characterRepository.upsert(truncatedCharacters, ['id']);
 
       return createResponse(
         true,
@@ -100,22 +100,15 @@ export class CharactersService {
 
   async refreshCharacters(): Promise<ResponseApiHh<Character[]>> {
     try {
-      await this.characterRepository.manager.transaction(
-        async (transactionalEntityManager) => {
-          await transactionalEntityManager.delete(Character, {});
+      const refreshData = await this.importCharacters();
+      if (!refreshData.ok) {
+        throw new Error('Failed to import characters');
+      }
 
-          const refreshData = await this.importCharacters();
-
-          if (!refreshData.ok) {
-            throw new Error('Failed to import characters');
-          }
-
-          return createResponse(
-            true,
-            'Characters refreshed successfully',
-            refreshData.data,
-          );
-        },
+      return createResponse(
+        true,
+        'Characters refreshed successfully',
+        refreshData.data,
       );
     } catch (error) {
       console.error('Error refreshing characters:', error.message);
