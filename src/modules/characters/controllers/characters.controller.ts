@@ -22,4 +22,9 @@ export class CharactersController {
   ): Promise<ResponseApiHh<Character[]>> {
     return this.charactersService.getCharactersByName(name, page, limit);
   }
+
+  @Post('refresh')
+  async refreshCharacters(): Promise<ResponseApiHh<Character[]>> {
+    return this.charactersService.refreshCharacters();
+  }
 }
