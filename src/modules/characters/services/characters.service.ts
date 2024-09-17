@@ -97,4 +97,29 @@ export class CharactersService {
       return createResponse(false, 'Failed to retrieve characters', []);
     }
   }
+
+  async refreshCharacters(): Promise<ResponseApiHh<Character[]>> {
+    try {
+      await this.characterRepository.manager.transaction(
+        async (transactionalEntityManager) => {
+          await transactionalEntityManager.delete(Character, {});
+
+          const refreshData = await this.importCharacters();
+
+          if (!refreshData.ok) {
+            throw new Error('Failed to import characters');
+          }
+
+          return createResponse(
+            true,
+            'Characters refreshed successfully',
+            refreshData.data,
+          );
+        },
+      );
+    } catch (error) {
+      console.error('Error refreshing characters:', error.message);
+      return createResponse(false, 'Failed to refresh characters', []);
+    }
+  }
 }
