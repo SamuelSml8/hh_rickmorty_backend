@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CharactersModule } from './modules/characters/characters.module';
+import { CronModule } from './modules/cron/cron.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import { CharactersModule } from './modules/characters/characters.module';
       synchronize: true,
     }),
     CharactersModule,
+    CronModule,
+    ScheduleModule.forRoot(),
   ],
   controllers: [],
   providers: [],
