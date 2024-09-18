@@ -2,37 +2,68 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# Rick & Morty API - Housy Host Test
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This project is part of a technical test for **Housy Host**, featuring a backend application built with **NestJS** and **PostgreSQL**. The API provides functionalities for managing characters from the **Rick & Morty** series, including features such as listing, filtering, and updating characters through a cron job that runs every 30 minutes.
 
-## Installation
+## Technologies Used
+
+- **NestJS**: Backend framework
+- **TypeORM**: ORM for database interactions
+- **PostgreSQL**: Relational database for storing characters
+- **Axios**: HTTP client for making requests to the Rick & Morty API
+- **Cron**: For scheduling regular database updates
+
+## Getting Started
+
+Follow these steps to set up and run the project locally:
+
+### 1. Clone the Repository
+
+You can clone the repository using either HTTPS or SSH:
+
+#### HTTP option
 
 ```bash
+$ git clone https://github.com/SamuelSml8/hh_rickmorty_backend.git
+```
+
+#### SSH option
+
+```bash
+$ git clone git@github.com:SamuelSml8/hh_rickmorty_backend.git
+```
+
+### 2. Install Dependencies
+
+Navigate to the project directory and install the necessary dependencies:
+
+```bash
+$ cd hh_rickmorty_backend
 $ npm install
 ```
 
-## Running the app
+### 3. Configure Environment Variables
+
+Create a .env file in the root directory of the project by copying the contents from .env.example. Update the values with your local or remote database connection details and JWT settings:
+
+```bash
+# APPLICATION PORT
+PORT=3000 # Port where the application will run
+
+# DATABASE CONFIGURATION
+DB_HOST=localhost # Database host
+DB_PORT=5432 # Database port
+DB_USER= # PostgreSQL username
+DB_PASSWORD= # PostgreSQL password
+DB_NAME= # Name of the database to use
+```
+
+### 4. Running the app
+
+Run the application using the following command:
 
 ```bash
 # development
@@ -45,28 +76,35 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+- The application will start and be accessible at http://localhost:3001.
+- The Swagger documentation will start and be accessible at [http://localhost:3001/api-doc](http://localhost:3001/api-doc).
 
-```bash
-# unit tests
-$ npm run test
+### 5. Running Cron Job
 
-# e2e tests
-$ npm run test:e2e
+The cron job to refresh the character database runs every 30 minutes automatically. You can also trigger the refresh manually using the provided API endpoint.
 
-# test coverage
-$ npm run test:cov
-```
+## API Endpoints
 
-## Support
+The API provides the following key endpoints for character management:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### **Characters**
+
+- **`POST /characters/import`**: Brings 200 characters and saves them in the local database.
+- **`GET /characters/:name`**: Filters characters by name with pagination.
+- **`POST /characters/refresh`**: Manually triggers a refresh of the character data from the Rick & Morty API.
+
+### Links
+
+- [Swagger Documentation](http://localhost:3000/api-doc)
+- [Postman Collection]()
+
+## Database Updates via Cron Job
+
+The application includes a cron job that automatically updates the character data every 30 minutes by fetching the latest characters from the Rick & Morty API. This ensures the database remains synchronized with the external API.
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Author - [Samuel Vera Miranda](www.linkedin.com/in/samuelsml)
 
 ## License
 
