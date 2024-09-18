@@ -105,6 +105,7 @@ export class CharactersService {
         [characters, total] = await this.characterRepository.findAndCount({
           skip: (page - 1) * limit,
           take: limit,
+          order: { id: 'ASC' },
         });
       } else {
         characters = await this.characterRepository
@@ -112,6 +113,7 @@ export class CharactersService {
           .where('character.name ILIKE :name', { name: `%${name}%` })
           .skip((page - 1) * limit)
           .take(limit)
+          .orderBy('character.id', 'ASC')
           .getMany();
 
         total = await this.characterRepository
