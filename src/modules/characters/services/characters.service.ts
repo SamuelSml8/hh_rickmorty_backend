@@ -86,17 +86,39 @@ export class CharactersService {
     name: string,
     page: number = 1,
     limit: number = 20,
-  ): Promise<ResponseApiHh<Character[]>> {
+  ): Promise<
+    ResponseApiHh<{
+      characters: Character[];
+      total: number;
+      page: number;
+      limit: number;
+    }>
+  > {
     try {
       if (page < 1) page = 1;
       if (limit < 1) limit = 20;
 
-      const characters = await this.characterRepository
-        .createQueryBuilder('character')
-        .where('character.name ILIKE :name', { name: `%${name}%` })
-        .skip((page - 1) * limit)
-        .take(limit)
-        .getMany();
+      let characters: Character[];
+      let total: number;
+
+      if (!name) {
+        [characters, total] = await this.characterRepository.findAndCount({
+          skip: (page - 1) * limit,
+          take: limit,
+        });
+      } else {
+        characters = await this.characterRepository
+          .createQueryBuilder('character')
+          .where('character.name ILIKE :name', { name: `%${name}%` })
+          .skip((page - 1) * limit)
+          .take(limit)
+          .getMany();
+
+        total = await this.characterRepository
+          .createQueryBuilder('character')
+          .where('character.name ILIKE :name', { name: `%${name}%` })
+          .getCount();
+      }
 
       if (!characters.length) {
         throw new HttpException(
@@ -105,7 +127,12 @@ export class CharactersService {
         );
       }
 
-      return createResponse(true, 'Characters found', characters);
+      return createResponse(true, 'Characters found', {
+        characters,
+        total,
+        page,
+        limit,
+      });
     } catch (error) {
       if (error instanceof HttpException) {
         throw error;
