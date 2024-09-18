@@ -1,5 +1,6 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" height="220" alt="Nest Logo" /></a>
+  <a href="https://rickandmortyapi.com/" target="blank"><img src="https://github.com/user-attachments/assets/56ddf966-bb2a-4ec1-8517-d6614d67da88" width="200" height="200" alt="Rick and Morty image" /></a>
 </p>
 
 # Rick & Morty API - Housy Host Test
@@ -51,7 +52,7 @@ Create a .env file in the root directory of the project by copying the contents 
 
 ```bash
 # APPLICATION PORT
-PORT=3000 # Port where the application will run
+PORT=3001 # Port where the application will run
 
 # DATABASE CONFIGURATION
 DB_HOST=localhost # Database host
