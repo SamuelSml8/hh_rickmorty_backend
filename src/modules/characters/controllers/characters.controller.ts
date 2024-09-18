@@ -116,7 +116,14 @@ export class CharactersController {
     @Query('name') name: string,
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 20,
-  ): Promise<ResponseApiHh<Character[]>> {
+  ): Promise<
+    ResponseApiHh<{
+      characters: Character[];
+      total: number;
+      page: number;
+      limit: number;
+    }>
+  > {
     return this.charactersService.getCharactersByName(name, page, limit);
   }
 
