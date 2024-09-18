@@ -8,7 +8,7 @@ export class CronService {
 
   constructor(private readonly charactersService: CharactersService) {}
 
-  @Cron(CronExpression.EVERY_10_MINUTES)
+  @Cron(CronExpression.EVERY_30_MINUTES)
   async handleCron() {
     this.logger.log('Running cron job to refresh characters every 30 minutes');
     try {
