@@ -29,7 +29,11 @@ export class CharactersService {
 
         if (!data.results || !Array.isArray(data.results)) {
           throw new HttpException(
-            createResponse(false, 'Unexpected data format from API', null),
+            createResponse(
+              false,
+              'Unexpected data format from Rick and Morty API',
+              null,
+            ),
             HttpStatus.INTERNAL_SERVER_ERROR,
           );
         }
@@ -66,8 +70,15 @@ export class CharactersService {
         truncatedCharacters,
       );
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
       console.error('Error importing characters:', error.message);
-      return createResponse(false, 'Failed to import characters', []);
+      throw new HttpException(
+        createResponse(false, 'Failed to import characters', []),
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
@@ -88,13 +99,23 @@ export class CharactersService {
         .getMany();
 
       if (!characters.length) {
-        return createResponse(false, 'No characters found', []);
+        throw new HttpException(
+          createResponse(false, 'No characters found', []),
+          HttpStatus.NOT_FOUND,
+        );
       }
 
       return createResponse(true, 'Characters found', characters);
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
       console.error('Error retrieving characters:', error.message);
-      return createResponse(false, 'Failed to retrieve characters', []);
+      throw new HttpException(
+        createResponse(false, 'Failed to retrieve characters', []),
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
@@ -103,7 +124,10 @@ export class CharactersService {
       const characters = await this.importCharacters();
 
       if (!characters.ok) {
-        throw new Error('Failed to import characters');
+        throw new HttpException(
+          createResponse(false, characters.message, []),
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
       }
 
       const newData = await this.characterRepository.manager.transaction(
@@ -137,8 +161,15 @@ export class CharactersService {
 
       return newData;
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
       console.error('Error refreshing characters:', error.message);
-      return createResponse(false, 'Failed to refresh characters', []);
+      throw new HttpException(
+        createResponse(false, 'Failed to refresh characters', []),
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }
