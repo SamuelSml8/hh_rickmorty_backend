@@ -91,7 +91,7 @@ The API provides the following key endpoints for character management:
 ### **Characters**
 
 - **`POST /characters/import`**: Brings 200 characters and saves them in the local database.
-- **`GET /characters/:name`**: Filters characters by name with pagination.
+- **`GET /characters?name=type_a_name&page=1&limit=20`**: Filters characters by name with pagination.
 - **`POST /characters/refresh`**: Manually triggers a refresh of the character data from the Rick & Morty API.
 
 ### Links
