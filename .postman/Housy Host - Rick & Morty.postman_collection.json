@@ -22,7 +22,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL_BASE}}{{PORT}}/characters?name=rick",
+					"raw": "{{URL_BASE}}{{PORT}}/characters?name=type_a_name&page=1&limit=20",
 					"host": [
 						"{{URL_BASE}}{{PORT}}"
 					],
@@ -32,7 +32,18 @@
 					"query": [
 						{
 							"key": "name",
-							"value": "rick"
+							"value": "type_a_name",
+							"description": "Optional search by name (ILIKE)"
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"description": "The default value is 1"
+						},
+						{
+							"key": "limit",
+							"value": "20",
+							"description": "The default value is 20"
 						}
 					]
 				}
