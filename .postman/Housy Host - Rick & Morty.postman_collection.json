@@ -1,0 +1,85 @@
+{
+	"info": {
+		"_postman_id": "01f6c528-28b4-4c51-9e3f-dd5c01997066",
+		"name": "Housy Host | Rick & Morty",
+		"description": "## Backend API Description\n\n### Overview\n\nThis API backend, built with NestJS and PostgreSQL, interacts with the Rick and Morty API to manage character data. The API allows for importing, retrieving, and refreshing character data, with endpoints documented for ease of use and testing.\n\n### Base URL\n\n- **Base URL**: `http://localhost:3001`\n    \n\n### Environment Variables\n\n- **URL_BASE**: `http://localhost`\n    \n- **PORT**: `3001`\n    \n\n### Endpoints\n\n#### 1\\. **Import Characters**\n\n- **Endpoint**: `POST /characters/import`\n    \n- **Description**: Imports 200 characters from the Rick and Morty API into the database. This operation fetches data from the external API, processes it, and stores it in the PostgreSQL database.\n    \n- **Response Examples**:\n    \n    - { \"ok\": true, \"message\": \"Characters imported successfully\", \"data\": \\[ { \"id\": 1, \"name\": \"Rick Sanchez\", \"status\": \"Alive\", \"species\": \"Human\", \"type\": \"\", \"gender\": \"Male\", \"image\": \"https://rickandmortyapi.com/api/character/avatar/1.jpeg\" } \\]}\n        \n    - { \"ok\": false, \"message\": \"Failed to import characters\", \"data\": \\[\\]}\n        \n\n#### 2\\. **Get Characters By Name**\n\n- **Endpoint**: `GET /characters`\n    \n- **Description**: Retrieves a list of characters filtered by name with pagination. This endpoint allows users to search for characters based on their name and navigate through pages of results.\n    \n- **Query Parameters**:\n    \n    - `name` (required): The name of the character to search for. Example: `Rick`\n        \n    - `page` (optional): The page number for pagination. Defaults to `1`. Example: `1`\n        \n    - `limit` (optional): The number of items per page. Defaults to `20`. Example: `20`\n        \n- **Response Examples**:\n    \n    - { \"ok\": true, \"message\": \"Characters found\", \"data\": \\[ { \"id\": 1, \"name\": \"Rick Sanchez\", \"status\": \"Alive\", \"species\": \"Human\", \"type\": \"\", \"gender\": \"Male\", \"image\": \"https://rickandmortyapi.com/api/character/avatar/1.jpeg\" } \\]}\n        \n    - { \"ok\": false, \"message\": \"No characters found\", \"data\": \\[\\]}\n        \n    - { \"ok\": false, \"message\": \"Failed to retrieve characters\", \"data\": \\[\\]}\n        \n\n#### 3\\. **Refresh Characters**\n\n- **Endpoint**: `POST /characters/refresh`\n    \n- **Description**: Refreshes the character data in the database by re-importing it from the Rick and Morty API. This endpoint is useful for updating the database with the latest character information.\n    \n- **Response Examples**:\n    \n    - { \"ok\": true, \"message\": \"Characters refreshed successfully\", \"data\": \\[ { \"id\": 1, \"name\": \"Rick Sanchez\", \"status\": \"Alive\", \"species\": \"Human\", \"type\": \"\", \"gender\": \"Male\", \"image\": \"https://rickandmortyapi.com/api/character/avatar/1.jpeg\" } \\]}\n        \n    - { \"ok\": false, \"message\": \"Failed to refresh characters\", \"data\": \\[\\]}\n        \n\n### Additional Information\n\n- **Cron Jobs**: The backend includes a cron job that automatically refreshes the characters database every 30 minutes to ensure that the character data is up-to-date.\n    \n- **Swagger Documentation**: Comprehensive API documentation is available through Swagger, providing details on all endpoints, request parameters, and response formats.\n    \n\nFeel free to test the API endpoints using Postman with the provided base URL and environment variables.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "27402576"
+	},
+	"item": [
+		{
+			"name": "Import characters",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": "{{URL_BASE}}{{PORT}}/characters/import"
+			},
+			"response": []
+		},
+		{
+			"name": "Get and filter characters",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL_BASE}}{{PORT}}/characters?name=rick",
+					"host": [
+						"{{URL_BASE}}{{PORT}}"
+					],
+					"path": [
+						"characters"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "rick"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh characters",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": "{{URL_BASE}}{{PORT}}/characters/refresh"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL_BASE",
+			"value": "http://localhost:"
+		},
+		{
+			"key": "PORT",
+			"value": "3001",
+			"type": "string"
+		}
+	]
+}
