@@ -1,4 +1,4 @@
-import { Controller, Get, ParseIntPipe, Post, Query } from '@nestjs/common';
+import { Controller, Get, Post, Query } from '@nestjs/common';
 import { CharactersService } from '../services/characters.service';
 import { ResponseApiHh } from 'src/utils/interfaces/response.interface';
 import { Character } from 'src/entities/character.entity';
